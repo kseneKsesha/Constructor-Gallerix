@@ -1,0 +1,241 @@
+﻿<Window x:Class="Constructor_Gallerix.View.GuestMainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gallerix — Галереи пользователей"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Height="700"
+        Width="1100">
+    <Window.Resources>
+        <ResourceDictionary Source="/Resources/Styles.xaml"/>
+    </Window.Resources>
+
+    <Border CornerRadius="12">
+        <Border.Background>
+            <ImageBrush ImageSource="/Images/back-image.jpg" Stretch="Fill"/>
+        </Border.Background>
+        <Border CornerRadius="10" BorderThickness="3" Opacity="0.92">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Верхнее меню -->
+                <Border Grid.Row="0" Background="{StaticResource PrimaryColorBrush}">
+                    <Grid>
+                        <!-- Три колонки: заголовок, кнопка аудиогида, крестик -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto" MinWidth="266"/>
+                            <ColumnDefinition Width="Auto" MinWidth="61"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="GALLERIX — Публичные галереи"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   FontFamily="Montserrat"
+                                   VerticalAlignment="Center"
+                                   Foreground="White"
+                                   Margin="25,0,0,0"
+                                   Height="22"/>
+
+                        <!-- Кнопка для включения/выключения аудиогида -->
+                        <Button x:Name="btnAudioGuideToggle"
+                                Grid.Column="1"
+                                Content="Включить аудиогид"
+                                Height="34"
+                                Margin="3,0,60,0"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource MainButtonStyle}"
+                                Click="BtnAudioGuideToggle_Click"/>
+
+                        <!-- Крестик -->
+                        <Button Content="X"
+                                Grid.Column="2"
+                                Style="{StaticResource CloseButtonStyle}"
+                                Width="NaN"
+                                Height="34"
+                                Margin="0,0,24,0"
+                                VerticalAlignment="Center"
+                                Click="CloseButton_Click"/>
+                    </Grid>
+                </Border>
+
+                <!-- Основное содержимое -->
+                <ScrollViewer Grid.Row="1" Background="Transparent">
+                    <StackPanel Margin="40,30,40,30">
+                        <!-- Поисковая панель -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,24" VerticalAlignment="Center">
+                            <TextBox x:Name="txtSearch"
+                                     Width="350"
+                                     Height="36"
+                                     FontSize="15"
+                                     Style="{StaticResource InputFieldStyle}"
+                                     VerticalContentAlignment="Center"
+                                     Text="Поиск по названию галереи или картине..."
+                                     GotFocus="txtSearch_GotFocus"
+                                     LostFocus="txtSearch_LostFocus"
+                                     Margin="0,0,14,0"/>
+                            <Button Content="Найти"
+                                    Width="120"
+                                    Height="36"
+                                    Style="{StaticResource MainButtonStyle}"
+                                    Click="SearchButton_Click"
+                                    Margin="0,0,14,0"/>
+                            <Button Content="Показать все галереи"
+                                    Width="180"
+                                    Height="36"
+                                    Style="{StaticResource GuestButtonStyle}"
+                                    Click="ShowAllButton_Click"/>
+                        </StackPanel>
+
+                        <!-- Список галерей -->
+                        <ItemsControl x:Name="GalleriesList">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <!-- Карточка галереи с выравниванием кнопки снизу -->
+                                    <Border Background="#181B40"
+                                            CornerRadius="12"
+                                            Margin="14"
+                                            Padding="0"
+                                            Width="360"
+                                            Height="500"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="2"
+                                            MouseEnter="GalleryCard_MouseEnter"
+                                            MouseLeave="GalleryCard_MouseLeave"
+                                            MouseLeftButtonUp="GalleryCard_MouseLeftButtonUp">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <!-- Обложка: 220px -->
+                                                <RowDefinition Height="220"/>
+                                                <!-- Контент: остальное пространство -->
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- ОБЛОЖКА ГАЛЕРЕИ -->
+                                            <Border Grid.Row="0"
+                                                    Width="360"
+                                                    Height="220"
+                                                    CornerRadius="12,12,0,0"
+                                                    ClipToBounds="True"
+                                                    Margin="1,1,1,0"
+                                                    Background="Transparent">
+                                                <Image Source="{Binding CoverImage}"
+                                                       Stretch="UniformToFill"
+                                                       Width="360"
+                                                       Height="220">
+                                                    <Image.Clip>
+                                                        <RectangleGeometry Rect="0,0,360,220"
+                                                                           RadiusX="12"
+                                                                           RadiusY="12"/>
+                                                    </Image.Clip>
+                                                </Image>
+                                            </Border>
+
+                                            <!-- Нижняя часть карточки -->
+                                            <Grid Grid.Row="1" Margin="15,10,15,10">
+                                                <Grid.RowDefinitions>
+                                                    <!-- Заголовок -->
+                                                    <RowDefinition Height="Auto"/>
+                                                    <!-- Описание -->
+                                                    <RowDefinition Height="Auto"/>
+                                                    <!-- Информация: дата, автор, рейтинг -->
+                                                    <RowDefinition Height="Auto"/>
+                                                    <!-- Занимаем оставшееся пространство перед кнопкой -->
+                                                    <RowDefinition Height="*"/>
+                                                    <!-- Кнопка оставить отзыв -->
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+
+                                                <!-- Заголовок -->
+                                                <TextBlock Grid.Row="0"
+                                                           Text="{Binding Title}"
+                                                           FontWeight="Bold"
+                                                           FontSize="18"
+                                                           Foreground="White"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           MaxHeight="50"/>
+
+                                                <!-- Описание -->
+                                                <TextBlock Grid.Row="1"
+                                                           Text="{Binding Description}"
+                                                           Foreground="#B0B0B0"
+                                                           TextWrapping="Wrap"
+                                                           MaxHeight="100"
+                                                           Margin="0,6,0,0"/>
+
+                                                <!-- Дата создания и автор -->
+                                                <StackPanel Grid.Row="2" Margin="0,6,0,0">
+                                                    <TextBlock Text="{Binding CreatedAt, StringFormat='Дата: {0:dd.MM.yyyy}'}"
+                                                               Foreground="#B0B0B0"/>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                        <TextBlock Text="Автор:"
+                                                                   Foreground="#8A16C1"
+                                                                   FontWeight="SemiBold"/>
+                                                        <Button Content="{Binding Author}"
+                                                                Style="{StaticResource TransparentLinkButtonStyle}"
+                                                                Margin="6,0,0,0"
+                                                                Foreground="#8A16C1"
+                                                                FontSize="14"
+                                                                Click="AuthorProfile_Click"
+                                                                Tag="{Binding AuthorId}"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <!-- Рейтинг -->
+                                                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,6,0,0">
+                                                    <TextBlock Text="★"
+                                                               Foreground="#FFB400"
+                                                               FontSize="18"
+                                                               Margin="0,0,2,0"/>
+                                                    <TextBlock Text="{Binding AvgRating, StringFormat='0.0'}"
+                                                               Foreground="#FFB400"
+                                                               FontSize="17"/>
+                                                </StackPanel>
+
+                                                <!-- Кнопка оставить отзыв -->
+                                                <Button Grid.Row="4"
+                                                        Content="Оставить отзыв"
+                                                        Style="{StaticResource GuestButtonStyle}"
+                                                        Height="40"
+                                                        Margin="0,12,0,0"
+                                                        VerticalAlignment="Bottom"
+                                                        Click="ReviewButton_Click"
+                                                        Tag="{Binding ExhibitionId}"/>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

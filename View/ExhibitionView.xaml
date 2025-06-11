@@ -1,0 +1,112 @@
+﻿<Window x:Class="Constructor_Gallerix.View.ExhibitionView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Галерея"
+        WindowStyle="None"
+        WindowState="Maximized"
+        ResizeMode="NoResize"
+        Background="Black"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <!-- Панель заголовка с эффектом прозрачности -->
+        <Grid Height="50"
+              VerticalAlignment="Top"
+              Background="#99000000">
+            <Grid.ColumnDefinitions>
+                <!-- Две "звёздочки" для адаптивного заголовка и кнопок -->
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Название галереи -->
+            <TextBlock x:Name="TitleBlock"
+                       VerticalAlignment="Center"
+                       Margin="20,0,0,0"
+                       Foreground="White"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       FontFamily="Montserrat"
+                       TextTrimming="CharacterEllipsis"
+                       Text="{Binding GalleryTitle}"/>
+
+            <!-- Кнопка для включения/отключения аудиогида -->
+            <Button x:Name="btnAudioGuideToggle"
+                    Grid.Column="1"
+                    Content="Включить аудиогид"
+                    Style="{StaticResource MainButtonStyle}"
+                    Height="34"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Click="BtnAudioGuideToggle_Click"/>
+
+            <!-- Кнопки управления: свернуть и закрыть -->
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center">
+                <!-- Свернуть -->
+                <Button x:Name="MinimizeButton"
+                        Style="{StaticResource MinimizeButtonStyle}"
+                        Click="BtnMinimize_Click"
+                        ToolTip="Свернуть"
+                        Width="40"
+                        Height="40"
+                        Margin="5,0,0,0"
+                        Content="―" />
+
+                <!-- Закрыть -->
+                <Button x:Name="CloseButton"
+                        Style="{StaticResource CloseButtonStyle}"
+                        Click="BtnClose_Click"
+                        ToolTip="Закрыть"
+                        Width="40"
+                        Height="40"
+                        Margin="10,0,20,0"
+                        Content="×" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Основной контейнер -->
+        <Grid Margin="0,50,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Заголовок и описание галереи -->
+            <StackPanel Grid.Row="0"
+                        Margin="30,20,30,15"
+                        VerticalAlignment="Top">
+                <TextBlock x:Name="GalleryTitle"
+                           Foreground="White"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           FontFamily="Montserrat"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Center"/>
+                <TextBlock x:Name="GalleryDescription"
+                           Foreground="#CCFFFFFF"
+                           FontSize="16"
+                           Margin="0,15,0,0"
+                           FontFamily="Montserrat"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"
+                           MaxWidth="1000"/>
+            </StackPanel>
+
+            <!-- Контейнер для шаблона галереи -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Padding="30,0,30,30">
+                <Grid x:Name="MainContainer">
+                    <!-- Контент галереи будет подгружаться сюда -->
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>

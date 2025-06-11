@@ -1,0 +1,166 @@
+﻿<Window x:Class="Constructor_Gallerix.View.PictureDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Детали картины"
+        WindowStyle="None"
+        WindowState="Maximized"
+        ResizeMode="NoResize"
+        Background="{StaticResource PrimaryColorBrush}"
+        Loaded="PictureDetailWindow_Loaded"
+        KeyDown="Window_KeyDown">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <!-- Верхняя панель с крестиком -->
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя панель -->
+        <Grid Grid.Row="0" Background="{StaticResource PrimaryColorBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Название картины -->
+            <TextBlock Text="{Binding Title}"
+                       x:Name="txtWindowTitle"
+                       Foreground="{StaticResource WhiteBrush}"
+                       FontFamily="Montserrat"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Margin="20,0,0,0"
+                       TextTrimming="CharacterEllipsis"/>
+
+            <!-- Кнопка закрытия (крестик) -->
+            <Button x:Name="btnClose"
+                    Grid.Column="1"
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,20,0"
+                    Content="×"
+                    Style="{StaticResource CloseButtonStyle}"
+                    Click="btnClose_Click"/>
+        </Grid>
+
+        <!-- Основной контент -->
+        <Grid Grid.Row="1" Margin="30">
+            <Grid.ColumnDefinitions>
+                <!-- Левая часть: картинка -->
+                <ColumnDefinition Width="*"/>
+                <!-- Правая часть: текстовые поля -->
+                <ColumnDefinition Width="380"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Левая колонка: изображение -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource PrimaryColorBrush}"
+                    CornerRadius="8"
+                    Margin="0,0,10,0">
+                <Viewbox Stretch="Uniform">
+                    <Image x:Name="imgPicture"
+                           Cursor="Hand"
+                           MouseLeftButtonUp="ShowFullscreenImage"/>
+                </Viewbox>
+            </Border>
+
+            <!-- Правая колонка: поля с информацией без скролла -->
+            <StackPanel Grid.Column="1"
+                        VerticalAlignment="Top"
+                        Margin="0,0,0,0">
+                <!-- Название картины -->
+                <TextBlock x:Name="txtTitle"
+                           Foreground="{StaticResource WhiteBrush}"
+                           FontFamily="Montserrat"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,20"/>
+
+                <!-- Автор -->
+                <TextBlock Text="Автор:"
+                           Foreground="{StaticResource WhiteBrush}"
+                           FontFamily="Montserrat"
+                           FontSize="18"
+                           FontWeight="SemiBold"/>
+                <Border BorderThickness="0,0,0,1"
+                        BorderBrush="#777799"
+                        Margin="0,4,0,20">
+                    <TextBlock x:Name="runAuthor"
+                               Foreground="{StaticResource WhiteBrush}"
+                               FontFamily="Montserrat"
+                               FontSize="16"
+                               Padding="0,2,0,4"
+                               TextWrapping="Wrap"/>
+                </Border>
+
+                <!-- Год -->
+                <TextBlock Text="Год:"
+                           Foreground="{StaticResource WhiteBrush}"
+                           FontFamily="Montserrat"
+                           FontSize="18"
+                           FontWeight="SemiBold"/>
+                <Border BorderThickness="0,0,0,1"
+                        BorderBrush="#777799"
+                        Margin="0,4,0,20">
+                    <TextBlock x:Name="runYear"
+                               Foreground="{StaticResource WhiteBrush}"
+                               FontFamily="Montserrat"
+                               FontSize="16"
+                               Padding="0,2,0,4"
+                               TextWrapping="Wrap"/>
+                </Border>
+
+                <!-- Описание -->
+                <TextBlock Text="Описание:"
+                           Foreground="{StaticResource WhiteBrush}"
+                           FontFamily="Montserrat"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,5"/>
+                <Border BorderThickness="0,0,0,1"
+                        BorderBrush="#777799"
+                        Margin="0,4,0,20"
+                        Padding="0,0,0,0">
+                    <TextBlock x:Name="txtDescription"
+                               Foreground="{StaticResource WhiteBrush}"
+                               FontFamily="Montserrat"
+                               FontSize="16"
+                               Padding="0,2"
+                               TextWrapping="Wrap"/>
+                </Border>
+
+                <!-- Комментарий эксперта -->
+                <TextBlock Text="Комментарий эксперта:"
+                           Foreground="{StaticResource WhiteBrush}"
+                           FontFamily="Montserrat"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,5"/>
+                <Border BorderThickness="0,0,0,1"
+                        BorderBrush="#777799"
+                        Margin="0,4,0,30"
+                        Padding="0,0,0,0">
+                    <TextBlock x:Name="txtExpertComment"
+                               Foreground="{StaticResource WhiteBrush}"
+                               FontFamily="Montserrat"
+                               FontStyle="Italic"
+                               FontSize="16"
+                               Padding="0,2"
+                               TextWrapping="Wrap"/>
+                </Border>
+
+                <!-- Кнопка «Открыть на весь экран» -->
+                <Button Content="Открыть на весь экран"
+                        Click="ShowFullscreenImage"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Width="200"
+                        Height="40"
+                        HorizontalAlignment="Center"
+                        Margin="0,0,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,354 @@
+﻿<Window x:Class="Constructor_Gallerix.View.MyWorksView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Мои работы"
+        Height="800"
+        Width="1200"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True">
+
+    <Border CornerRadius="12">
+        <Border.Background>
+            <ImageBrush ImageSource="/Images/back-image.jpg" Stretch="Fill"/>
+        </Border.Background>
+
+        <Border CornerRadius="10" BorderThickness="3" Opacity="0.85">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Верхняя панель -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="GALLERIX"
+                               Margin="15,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="14"
+                               FontFamily="Montserrat"
+                               Foreground="White"/>
+
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Margin="0,0,15,0">
+                        <Button x:Name="btnMinimize"
+                                Content="-"
+                                Style="{StaticResource MinimizeButtonStyle}"
+                                Click="btnMinimize_Click"/>
+
+                        <Button x:Name="btnClose"
+                                Content="X"
+                                Style="{StaticResource CloseButtonStyle}"
+                                Margin="8,0,0,0"
+                                Click="btnClose_Click"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Меню -->
+                <Border Grid.Row="1" Background="#1B1448">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="txtUsername"
+                                   Margin="25,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   FontFamily="Montserrat"
+                                   Foreground="White"/>
+
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <Button x:Name="btnHome"
+                                    Content="Главная"
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    Click="HomeButton_Click"
+                                    Margin="15,0"/>
+
+                            <Button x:Name="btnConstructor"
+                                    Content="Конструктор"
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    Click="ConstructorButton_Click"
+                                    Margin="15,0"/>
+
+                            <Button x:Name="btnMyWorks"
+                                    Content="Мои работы"
+                                    Style="{StaticResource ActiveMenuButtonStyle}"
+                                    IsEnabled="False"
+                                    Margin="15,0"/>
+
+                            <Button x:Name="btnDemo"
+                                    Content="Демонстрация"
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    Click="DemoButton_Click"
+                                    Margin="15,0"/>
+
+                            <!-- Новая кнопка "Справка" -->
+                            <Button x:Name="btnHelp"
+                                    Content="Справка"
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    Click="HelpButton_Click"
+                                    Margin="15,0"/>
+                        </StackPanel>
+
+                        <Button Grid.Column="2"
+                                Content="Профиль"
+                                Width="120"
+                                Height="35"
+                                Margin="0,0,25,0"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Click="ProfileButton_Click"/>
+                    </Grid>
+                </Border>
+
+                <!-- Панель поиска с фильтрами и кнопками -->
+                <Border Grid.Row="2" Background="#171634" Padding="15,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="txtSearch"
+                                 Grid.Column="0"
+                                 Background="#25204b"
+                                 Foreground="#E1E4EA"
+                                 FontFamily="Montserrat"
+                                 FontSize="14"
+                                 BorderBrush="#8A16C1"
+                                 BorderThickness="1"
+                                 Padding="15,5"
+                                 Height="40"
+                                 VerticalContentAlignment="Center"
+                                 GotFocus="txtSearch_GotFocus"
+                                 LostFocus="txtSearch_LostFocus"
+                                 Text="Введите название галереи..."
+                                 Margin="0,5,80,5"/>
+
+                        <ComboBox x:Name="cmbFilter"
+                                  Margin="671,5,51,5"
+                                  Background="#1A1921"
+                                  Foreground="#E1E4EA"
+                                  FontFamily="Montserrat"
+                                  FontSize="14"
+                                  BorderBrush="#4B3B6E"
+                                  BorderThickness="1"
+                                  SelectedIndex="0"
+                                  Height="40"
+                                  Padding="10,0"
+                                  SelectionChanged="cmbFilter_SelectionChanged"
+                                  Grid.ColumnSpan="2">
+                            <!-- Сброс стандартной подсветки выбранного элемента -->
+                            <ComboBox.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="#E1E4EA" />
+                            </ComboBox.Resources>
+
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="Background" Value="#1A1921"/>
+                                    <Setter Property="Foreground" Value="#E1E4EA"/>
+                                    <Setter Property="Padding" Value="10,5"/>
+
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#2A2835"/>
+                                            <Setter Property="Foreground" Value="#E1E4EA"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#3C2F5A"/>
+                                            <Setter Property="Foreground" Value="#E1E4EA"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+
+                            <ComboBoxItem Content="Все галереи" Tag="all"/>
+                            <ComboBoxItem Content="Избранные" Tag="favorites"/>
+                            <ComboBoxItem Content="Публичные" Tag="public"/>
+                            <ComboBoxItem Content="Приватные" Tag="private"/>
+                        </ComboBox>
+
+                        <!-- Кнопка "Показать все" -->
+                        <Button x:Name="btnShowAll"
+                                Grid.Column="1"
+                                Content="Показать все"
+                                Height="40"
+                                Margin="173,5,44,5"
+                                Style="{StaticResource MainButtonStyle}"
+                                Click="ShowAllButton_Click"
+                                Grid.ColumnSpan="2"/>
+
+                        <!-- Кнопка "Найти" -->
+                        <Button x:Name="btnSearch"
+                                Grid.Column="2"
+                                Content="Найти"
+                                Height="40"
+                                Style="{StaticResource MainButtonStyle}"
+                                Margin="124,5,23,5"
+                                Click="SearchButton_Click"
+                                Grid.ColumnSpan="2"/>
+                    </Grid>
+                </Border>
+
+                <!-- Список галерей -->
+                <ScrollViewer Grid.Row="3" Padding="25">
+                    <StackPanel>
+                        <ItemsControl x:Name="GalleriesList">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="280" Height="320" Margin="15" Background="Transparent">
+                                        <Grid>
+                                            <!-- Основной фон галереи (Panel.ZIndex=0) -->
+                                            <Border Background="#1E1E2F"
+                                                    CornerRadius="12"
+                                                    Cursor="Hand"
+                                                    Panel.ZIndex="0">
+                                                <Grid MouseUp="Gallery_MouseUp"
+                                                      MouseEnter="Gallery_MouseEnter"
+                                                      MouseLeave="Gallery_MouseLeave">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="200"/>
+                                                        <RowDefinition Height="80"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <!-- Обложка галереи -->
+                                                    <Border CornerRadius="12,12,0,0"
+                                                            ClipToBounds="True"
+                                                            Margin="1,1,1,0">
+                                                        <Image Source="{Binding CoverImage}"
+                                                               Stretch="UniformToFill">
+                                                            <Image.Clip>
+                                                                <RectangleGeometry Rect="0,0,280,200"
+                                                                                   RadiusX="12"
+                                                                                   RadiusY="12"/>
+                                                            </Image.Clip>
+                                                        </Image>
+                                                    </Border>
+
+                                                    <!-- Нижняя панель с заголовком/датой и иконками -->
+                                                    <Border Grid.Row="1"
+                                                            Background="#2A1F6E"
+                                                            CornerRadius="0,0,12,12">
+                                                        <Grid Margin="10">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <StackPanel VerticalAlignment="Center">
+                                                                <TextBlock Text="{Binding Title}"
+                                                                           Foreground="White"
+                                                                           FontWeight="Bold"
+                                                                           FontSize="14"
+                                                                           TextTrimming="CharacterEllipsis"/>
+                                                                <TextBlock Text="{Binding CreatedAt, StringFormat='dd.MM.yyyy'}"
+                                                                           Foreground="#B0B0B0"
+                                                                           FontSize="12"/>
+                                                            </StackPanel>
+
+                                                            <!-- Кнопка «Избранное» -->
+                                                            <Button Grid.Column="1"
+                                                                    Background="Transparent"
+                                                                    BorderThickness="0"
+                                                                    Margin="0,0,10,0"
+                                                                    Click="FavoriteButton_Click"
+                                                                    Tag="{Binding}">
+                                                                <Image x:Name="FavoriteIcon"
+                                                                       Width="20"
+                                                                       Height="20"
+                                                                       Source="{Binding FavoriteIcon}"/>
+                                                            </Button>
+
+                                                            <!-- Кнопка «Публичность» -->
+                                                            <Button Grid.Column="2"
+                                                                    Background="Transparent"
+                                                                    BorderThickness="0"
+                                                                    Margin="0,0,5,0"
+                                                                    Click="ToggleVisibility_Click"
+                                                                    Tag="{Binding}">
+                                                                <Image x:Name="VisibilityIcon"
+                                                                       Width="20"
+                                                                       Height="20"
+                                                                       Source="{Binding VisibilityIcon}"/>
+                                                            </Button>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- Кнопка удаления (крестик) поверх всех элементов (Panel.ZIndex=1) -->
+                                            <Button Style="{StaticResource DeleteButtonStyle}"
+                                                    Width="30"
+                                                    Height="30"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Margin="5"
+                                                    ToolTip="Удалить галерею"
+                                                    Panel.ZIndex="1"
+                                                    Click="DeleteGallery_Click"
+                                                    Tag="{Binding}" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <TextBlock x:Name="txtNoResults"
+                                   Text="Ничего не найдено"
+                                   Foreground="#8A9BBD"
+                                   FontSize="16"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,50"
+                                   Visibility="Collapsed"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

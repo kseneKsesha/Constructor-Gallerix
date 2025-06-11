@@ -1,0 +1,257 @@
+﻿<Window x:Class="Constructor_Gallerix.View.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainView"
+        Height="700"
+        Width="900"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True">
+    <Window.Resources>
+        <ResourceDictionary Source="/Resources/Styles.xaml"/>
+    </Window.Resources>
+    <Border CornerRadius="12">
+        <Border.Background>
+            <ImageBrush ImageSource="/Images/back-image.jpg" Stretch="Fill"/>
+        </Border.Background>
+        <Border CornerRadius="10" BorderThickness="3" Opacity="0.85">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Верхняя панель управления окном -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="GALLERIX"
+                               Margin="10,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="12"
+                               FontFamily="Montserrat"
+                               Foreground="{StaticResource WhiteBrush}"/>
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Margin="0,0,10,0">
+                        <Button x:Name="btnMinimize"
+                                Content="-"
+                                Style="{StaticResource MinimizeButtonStyle}"
+                                Click="btnMinimize_Click"/>
+                        <Button x:Name="btnClose"
+                                Content="X"
+                                Style="{StaticResource CloseButtonStyle}"
+                                Margin="5,0,0,0"
+                                Click="btnClose_Click"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Верхнее меню -->
+                <Border Grid.Row="1" Background="{StaticResource PrimaryColorBrush}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!-- Ник пользователя -->
+                        <TextBlock x:Name="txtUsername"
+                                   Text="Username"
+                                   Margin="20,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontSize="14"
+                                   FontWeight="Bold"
+                                   FontFamily="Montserrat"
+                                   Foreground="{StaticResource WhiteBrush}"/>
+                        <!-- Меню навигации -->
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <Button x:Name="btnHome"
+                                    Content="Главная"
+                                    Style="{StaticResource ActiveMenuButtonStyle}"
+                                    IsEnabled="False"
+                                    Margin="10,0"/>
+                            <Button x:Name="btnConstructor"
+                                    Content="Конструктор"
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    Click="ConstructorButton_Click"
+                                    Margin="10,0"/>
+                            <Button x:Name="btnMyWorks"
+                                    Content="Мои работы"
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    Click="MyWorksButton_Click"
+                                    Margin="10,0"/>
+                            <Button x:Name="btnDemo"
+                                    Content="Демонстрация"
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    Click="DemoButton_Click"
+                                    Margin="10,0"/>
+                            <Button x:Name="btnHelp"
+                                    Content="Справка"
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    Click="HelpButton_Click"
+                                    Margin="10,0"/>
+                        </StackPanel>
+                        <!-- Кнопка ПРОФИЛЬ вместо СОЗДАТЬ -->
+                        <Button Grid.Column="2"
+                                Content="Профиль"
+                                Width="100"
+                                Margin="0,0,20,0"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Click="ProfileButton_Click"/>
+                    </Grid>
+                </Border>
+
+                <!-- Основное содержимое -->
+                <Border Grid.Row="2"
+                        CornerRadius="0,0,10,10"
+                        Background="#1B1448">
+                    <ScrollViewer Background="Transparent">
+                        <StackPanel Margin="30,20,30,20" VerticalAlignment="Top">
+                            <!-- Текст заголовка -->
+                            <TextBlock Text="Последняя редактируемая галерея"
+                                       Foreground="{StaticResource WhiteBrush}"
+                                       FontSize="24"
+                                       HorizontalAlignment="Left"
+                                       Margin="0,0,0,20"/>
+
+                            <!-- Блок последней галереи -->
+                            <Border x:Name="borderLastGallery"
+                                    Background="#201B1448"
+                                    BorderBrush="#462AD8"
+                                    BorderThickness="2"
+                                    CornerRadius="10"
+                                    Padding="15"
+                                    Margin="0,0,0,18"
+                                    Visibility="Collapsed">
+                                <StackPanel Orientation="Horizontal">
+                                    <!-- Обложка последней галереи: квадрат с круглыми углами -->
+                                    <Border Width="100"
+                                            Height="100"
+                                            CornerRadius="10"
+                                            BorderBrush="#8A16C1"
+                                            BorderThickness="1"
+                                            Background="#222"
+                                            Margin="0,0,18,0"
+                                            ClipToBounds="True">
+                                        <Image x:Name="imgLastGalleryCover"
+                                               Width="100"
+                                               Height="100"
+                                               Stretch="UniformToFill"/>
+                                    </Border>
+                                    <StackPanel>
+                                        <TextBlock x:Name="txtLastGalleryTitle"
+                                                   Text="—"
+                                                   FontSize="18"
+                                                   FontWeight="Bold"
+                                                   Foreground="White"
+                                                   Margin="0,0,0,6"/>
+                                        <TextBlock x:Name="txtLastGalleryDate"
+                                                   Text=""
+                                                   Foreground="#B0B0B0"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Блок отзывов (вертикально) -->
+                            <TextBlock Text="Отзывы о ваших галереях"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       Margin="0,0,0,8"/>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          Height="270">
+                                <ItemsControl x:Name="ReviewsList"
+                                              Margin="0,0,0,0">
+                                    <!-- По умолчанию ItemsControl выводит вертикально -->
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="#22224D"
+                                                    CornerRadius="8"
+                                                    Margin="0,0,0,12"
+                                                    Padding="12">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding ExhibitionTitle}"
+                                                               Foreground="#DA34AE"
+                                                               FontWeight="Bold"
+                                                               FontSize="13"/>
+                                                    <TextBlock Text="{Binding Reviewer}"
+                                                               Foreground="#EEE"
+                                                               FontWeight="SemiBold"
+                                                               Margin="0,3,0,0"/>
+                                                    <TextBlock Text="{Binding Comment}"
+                                                               Foreground="#BBB"
+                                                               Margin="0,5,0,5"
+                                                               TextWrapping="Wrap"/>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="★"
+                                                                   Foreground="#FFB400"
+                                                                   FontSize="16"
+                                                                   Margin="0,0,2,0" />
+                                                        <ItemsControl ItemsSource="{Binding Stars}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <StackPanel Orientation="Horizontal"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock Text="{Binding}"
+                                                                               Foreground="#FFB400"
+                                                                               FontSize="15"/>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+
+                            <!-- Кнопка оставить отзыв о приложении -->
+                            <Grid Margin="0,12,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel/>
+                                <Button x:Name="btnAppReview"
+                                        Content="Оставить отзыв о приложении"
+                                        Style="{StaticResource MainButtonStyle}"
+                                        Width="210"
+                                        Click="AppReview_Click"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"/>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

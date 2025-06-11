@@ -1,0 +1,341 @@
+﻿<Window x:Class="Constructor_Gallerix.View.AdminMainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Constructor_Gallerix.View"
+        Title="Gallerix — Админ"
+        Height="700"
+        Width="1100"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True">
+    <Window.Resources>
+        <ResourceDictionary Source="/Resources/Styles.xaml"/>
+    </Window.Resources>
+    <Border CornerRadius="12">
+        <Border.Background>
+            <ImageBrush ImageSource="/Images/back-image.jpg" Stretch="Fill"/>
+        </Border.Background>
+        <Border CornerRadius="10" BorderThickness="3" Opacity="0.92">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Верхняя панель -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="GALLERIX — Администратор"
+                               Margin="15,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="15"
+                               FontFamily="Montserrat"
+                               Foreground="White"/>
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Margin="0,0,15,0">
+                        <Button x:Name="btnMinimize"
+                                Content="-"
+                                Style="{StaticResource MinimizeButtonStyle}"
+                                Click="btnMinimize_Click"/>
+                        <Button x:Name="btnClose"
+                                Content="X"
+                                Style="{StaticResource CloseButtonStyle}"
+                                Margin="8,0,0,0"
+                                Click="btnClose_Click"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Меню вкладок -->
+                <Border Grid.Row="1" Background="#1B1448">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button x:Name="btnTabUsers" Content="Пользователи"
+                                Style="{StaticResource MainButtonStyle}"
+                                Margin="10" Width="150"
+                                Click="btnTabUsers_Click"/>
+                        <Button x:Name="btnTabGalleries" Content="Галереи"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Margin="10" Width="150"
+                                Click="btnTabGalleries_Click"/>
+                        <Button x:Name="btnTabComments" Content="Комментарии"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Margin="10" Width="150"
+                                Click="btnTabComments_Click"/>
+                        <Button x:Name="btnTabCensorship" Content="Цензура"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                Margin="10" Width="150"
+                                Click="btnTabCensorship_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Контент (ViewSwitcher) -->
+                <Grid Grid.Row="2">
+                    <!-- ========== USERS ========== -->
+                    <ScrollViewer x:Name="UsersPanel" Visibility="Visible">
+                        <StackPanel Margin="40,25">
+                            <TextBlock Text="Зарегистрированные пользователи"
+                                       Foreground="White"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,14"/>
+                            <ItemsControl x:Name="UsersList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#181B40"
+                                                CornerRadius="8"
+                                                Margin="0,0,0,14"
+                                                Padding="12">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Username}"
+                                                               Foreground="#DA34AE"
+                                                               FontSize="15"
+                                                               FontWeight="Bold"/>
+                                                    <TextBlock Text="{Binding FullName}"
+                                                               Foreground="White"/>
+                                                    <TextBlock Text="{Binding Email}"
+                                                               Foreground="#B0B0B0"/>
+                                                    <TextBlock Text="{Binding CreatedAt, StringFormat='Дата регистрации: {0:dd.MM.yyyy}'}"
+                                                               Foreground="#B0B0B0"/>
+                                                    <TextBlock Text="{Binding Bio}"
+                                                               Foreground="#B0B0B0"
+                                                               TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                                <Button Grid.Column="1"
+                                                        Style="{StaticResource DeleteButtonStyle}"
+                                                        Content="✖"
+                                                        Width="36"
+                                                        Height="36"
+                                                        Margin="12,0,0,0"
+                                                        ToolTip="Удалить пользователя"
+                                                        Tag="{Binding UserId}"
+                                                        Click="DeleteUser_Click"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- ========== GALLERIES ========== -->
+                    <ScrollViewer x:Name="GalleriesPanel" Visibility="Collapsed">
+                        <StackPanel Margin="40,25">
+                            <TextBlock Text="Все галереи пользователей"
+                                       Foreground="White"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,14"/>
+                            <ItemsControl x:Name="GalleriesList">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#181B40"
+                                                CornerRadius="12"
+                                                Margin="10"
+                                                Padding="0"
+                                                Width="270"
+                                                Height="330"
+                                                x:Name="GalleryCard"
+                                                BorderBrush="Transparent"
+                                                BorderThickness="2"
+                                                MouseEnter="GalleryCard_MouseEnter"
+                                                MouseLeave="GalleryCard_MouseLeave">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="200"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+
+                                                <!-- Картинка галереи -->
+                                                <Grid Grid.Row="0">
+                                                    <Image Source="{Binding CoverImage}"
+                                                           Stretch="UniformToFill"
+                                                           Height="200"
+                                                           Width="250"/>
+                                                    <!-- 
+                                                        Кнопка «Открыть» по всей области картинки, 
+                                                        чтобы клик открывал галерею 
+                                                    -->
+                                                    <Button Background="Transparent"
+                                                            BorderThickness="0"
+                                                            CommandParameter="{Binding ExhibitionId}"
+                                                            Click="OpenGallery_Click"
+                                                            ToolTip="Открыть галерею"
+                                                            Opacity="0"
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalAlignment="Stretch"
+                                                            Width="250"
+                                                            Height="200"/>
+
+                                                    <!-- Кнопка «Удалить» в правом верхнем углу -->
+                                                    <Button Content="✖"
+                                                            Style="{StaticResource DeleteButtonStyle}"
+                                                            Width="34"
+                                                            Height="34"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Top"
+                                                            ToolTip="Удалить галерею"
+                                                            Tag="{Binding ExhibitionId}"
+                                                            Click="DeleteGallery_Click"
+                                                            Margin="6"
+                                                            Panel.ZIndex="10"/>
+                                                </Grid>
+
+                                                <!-- Информация под картинкой -->
+                                                <StackPanel Grid.Row="1"
+                                                            Margin="15,10,15,5">
+                                                    <TextBlock Text="{Binding Title}"
+                                                               FontWeight="Bold"
+                                                               FontSize="14"
+                                                               Foreground="White"/>
+                                                    <TextBlock Text="{Binding Author}"
+                                                               Foreground="#B0B0B0"/>
+                                                    <TextBlock Text="{Binding CreatedAt, StringFormat='Дата: {0:dd.MM.yyyy}'}"
+                                                               Foreground="#B0B0B0"/>
+                                                    <StackPanel Orientation="Horizontal"
+                                                                Margin="0,8,0,0">
+                                                        <TextBlock Text="★"
+                                                                   Foreground="#FFB400"
+                                                                   FontSize="16"
+                                                                   Margin="0,0,2,0"/>
+                                                        <TextBlock Text="{Binding AvgRating, StringFormat='0.0'}"
+                                                                   Foreground="#FFB400"
+                                                                   FontSize="15"
+                                                                   Margin="3,0,0,0"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- ========== COMMENTS ========== -->
+                    <ScrollViewer x:Name="CommentsPanel" Visibility="Collapsed">
+                        <StackPanel Margin="40,25">
+                            <TextBlock Text="Все комментарии"
+                                       Foreground="White"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       Margin="0,0,0,14"/>
+                            <ItemsControl x:Name="CommentsList">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#181B40"
+                                                CornerRadius="8"
+                                                Margin="0,0,0,14"
+                                                Padding="10">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Reviewer}"
+                                                               FontWeight="Bold"
+                                                               Foreground="#DA34AE"/>
+                                                    <TextBlock Text="{Binding Comment}"
+                                                               Foreground="White"
+                                                               TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{Binding ExhibitionTitle}"
+                                                               Foreground="#B0B0B0"/>
+                                                    <TextBlock Text="{Binding CreatedAt, StringFormat='Дата: {0:dd.MM.yyyy HH:mm}'}"
+                                                               Foreground="#B0B0B0"/>
+                                                </StackPanel>
+                                                <Button Grid.Column="1"
+                                                        Style="{StaticResource DeleteButtonStyle}"
+                                                        Content="✖"
+                                                        Width="34"
+                                                        Height="34"
+                                                        Margin="10,0,0,0"
+                                                        ToolTip="Удалить комментарий"
+                                                        Tag="{Binding ReviewId}"
+                                                        Click="DeleteComment_Click"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- ========== CENSORSHIP ========== -->
+                    <Grid x:Name="CensorshipPanel" Visibility="Collapsed" Background="Transparent">
+                        <StackPanel Margin="40,25" HorizontalAlignment="Center" VerticalAlignment="Top" Width="430">
+                            <TextBlock Text="Редактирование запрещённых слов"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       Margin="0,0,0,18"/>
+                            <TextBlock Text="Введите каждое слово с новой строки:"
+                                       Foreground="#E1E1E1"
+                                       Margin="0,0,0,7"
+                                       FontSize="14"/>
+
+                            <Border CornerRadius="10"
+                                    Background="#1C1747"
+                                    BorderThickness="2"
+                                    BorderBrush="#462AD8"
+                                    Margin="0,0,0,16"
+                                    Padding="8">
+                                <TextBox x:Name="txtForbiddenWords"
+                                         AcceptsReturn="True"
+                                         VerticalScrollBarVisibility="Auto"
+                                         Height="170"
+                                         FontSize="15"
+                                         FontFamily="Montserrat"
+                                         Background="Transparent"
+                                         Foreground="White"
+                                         BorderThickness="0"
+                                         Padding="2"
+                                         CaretBrush="White"
+                                         TextWrapping="Wrap"/>
+                            </Border>
+
+                            <!-- Единая кнопка: "Сохранить и обновить" -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0">
+                                <Button x:Name="btnSaveAndReloadForbiddenWords"
+                                        Content="Сохранить и обновить"
+                                        Width="200"
+                                        Height="38"
+                                        Click="btnSaveAndReloadForbiddenWords_Click"
+                                        Style="{StaticResource PrimaryButtonStyle}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</Window>
